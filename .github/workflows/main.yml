@@ -99,27 +99,13 @@ jobs:
 
           "TAILSCALE_IP=$tsIP" >> $env:GITHUB_ENV
 
-      - name: Install Opera Browser
+        - name: Install Opera via Chocolatey
         shell: powershell
         run: |
-          $operaUrl = "https://get.opera.com/ftp/pub/opera/desktop/108.0.5067.29/win/Opera_108.0.5067.29_Setup.exe"
-          $installerPath = "$env:TEMP\OperaSetup.exe"
+            Set-ExecutionPolicy Bypass -Scope Process -Force
+            iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+            choco install opera -y
 
-          Invoke-WebRequest -Uri $operaUrl -OutFile $installerPath
-
-          # Silent install Opera
-          Start-Process -FilePath $installerPath -ArgumentList "/silent /install" -Wait
-
-          # Remove installer
-          Remove-Item $installerPath -Force
-
-          # Verify installation
-          if (-not (Test-Path "C:\Program Files\Opera\launcher.exe")) {
-              Write-Error "Opera installation failed"
-              exit 1
-          } else {
-              Write-Host "✅ Opera installed successfully"
-          }
 
 
       - name: Verify RDP Accessibility

@@ -102,7 +102,7 @@ jobs:
       - name: Install Opera Browser
         shell: powershell
         run: |
-          $operaUrl = "https://download3.operacdn.com/pub/opera/desktop/100.0.4841.47/win/Opera_100.0.4841.47_Setup_x64.exe"
+          $operaUrl = "https://get.opera.com/ftp/pub/opera/desktop/108.0.5067.29/win/Opera_108.0.5067.29_Setup.exe"
           $installerPath = "$env:TEMP\OperaSetup.exe"
 
           Invoke-WebRequest -Uri $operaUrl -OutFile $installerPath

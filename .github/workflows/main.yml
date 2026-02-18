@@ -99,14 +99,18 @@ jobs:
 
           "TAILSCALE_IP=$tsIP" >> $env:GITHUB_ENV
 
-        - name: Install Opera via Chocolatey
+      - name: Install Opera via Chocolatey
         shell: powershell
         run: |
-            Set-ExecutionPolicy Bypass -Scope Process -Force
-            iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-            choco install opera -y
-
-
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+          choco install opera -y
+          if (-not (Get-Command opera.exe -ErrorAction SilentlyContinue)) {
+              Write-Error "Opera installation failed"
+              exit 1
+          } else {
+              Write-Host "✅ Opera installed successfully"
+          }
 
       - name: Verify RDP Accessibility
         shell: powershell
